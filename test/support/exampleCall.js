@@ -9,7 +9,7 @@ const client = new SparqlHttpClient({
 })
 
 const clientOptions = {
-  operation: 'postUrlencoded',
+  operation: 'postUrlencoded'
 }
 
 const api = createApi(client, clientOptions)
