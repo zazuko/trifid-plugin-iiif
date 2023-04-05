@@ -44,8 +44,8 @@ function createApi (client, clientOptions) {
 
     // Find all important nodes
     const nodes = ptr.has(ns.rdf.type, [
-      ns.iiif_prezi.Manifest,
-      ns.iiif_prezi.Canvas,
+      ns.iiifPrezi.Manifest,
+      ns.iiifPrezi.Canvas,
       ns.as.OrderedCollectionPage,
       ns.oa.Annotation,
       ns.dctypes.StillImage,

@@ -1,16 +1,16 @@
 import { sparql } from '@tpluscode/rdf-string'
 import ns from './ns.js'
 
-function discoverManifest (iri) {
+const discoverManifest = (iri) => {
   return sparql`
 CONSTRUCT {
-  ?m a ${ns.iiif_prezi.Manifest} ;
+  ?m a ${ns.iiifPrezi.Manifest} ;
     ${ns.as.items} ?manifestItems .
 
   ?manifestRest ${ns.rdf.first} ?canvas ;
     ${ns.rdf.rest} ?manifestTail .
 
-  ?canvas a ${ns.iiif_prezi.Canvas} ;
+  ?canvas a ${ns.iiifPrezi.Canvas} ;
     ${ns.as.items} ?canvasItems .
 
   ?canvasRest ${ns.rdf.first} ?page ;
@@ -28,7 +28,7 @@ CONSTRUCT {
   ?body a ?dcmiType ;
     ${ns.schema.potentialAction} ?service .
 
-  ?service a ${ns.iiif_image.ImageService} ;
+  ?service a ${ns.iiifImage.ImageService} ;
     ${ns.dcterms.conformsTo} ?serviceLevel ;
     ${ns.dcterms.type} ?serviceType ;
     ${ns.exif.height} ?serviceHeight ;
@@ -36,14 +36,14 @@ CONSTRUCT {
 } WHERE {
   #pragma optimizer.property.paths.start off
 
-  ?m a ${ns.iiif_prezi.Manifest} ;
+  ?m a ${ns.iiifPrezi.Manifest} ;
     ${ns.as.items} ?manifestItems .
 
   ?manifestItems ${ns.rdf.rest}* ?manifestRest .
   ?manifestRest ${ns.rdf.first} ?canvas ;
     ${ns.rdf.rest} ?manifestTail .
 
-  ?canvas a ${ns.iiif_prezi.Canvas} ;
+  ?canvas a ${ns.iiifPrezi.Canvas} ;
     ${ns.as.items} ?canvasItems .
 
   ?canvasItems ${ns.rdf.rest}* ?canvasRest .
@@ -65,7 +65,7 @@ CONSTRUCT {
   OPTIONAL {
     ?body ${ns.schema.potentialAction} ?service .
 
-    ?service a ${ns.iiif_image.ImageService} ;
+    ?service a ${ns.iiifImage.ImageService} ;
       ${ns.dcterms.conformsTo} ?serviceLevel ;
       ${ns.dcterms.type} ?serviceType ;
       ${ns.exif.height} ?serviceHeight ;
@@ -77,14 +77,14 @@ CONSTRUCT {
 `.toString()
 }
 
-function describeNodes (nodes) {
+const describeNodes = (nodes) => {
   return nodes
     .reduce((acc, node) => sparql`${acc} ${node}`, sparql`DESCRIBE`)
     .toString()
 }
 
-function manifestExists (iri) {
-  return sparql`ASK { ${iri} a ${ns.iiif_prezi.Manifest} }`.toString()
+const manifestExists = (iri) => {
+  return sparql`ASK { ${iri} a ${ns.iiifPrezi.Manifest} }`.toString()
 }
 
 export default { discoverManifest, describeNodes, manifestExists }

@@ -1,12 +1,14 @@
 {
-  "private": true,
-  "name": "trifid-plugin-iiif",
-  "type": "module",
-  "version": "0.1.0",
-  "description": "",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "name": "@zazuko/trifid-plugin-iiif",
+  "version": "0.1.2",
+  "description": "Trifid plugin to handle IIIF data",
+  "keywords": [
+    "trifid",
+    "trifid-plugin",
+    "iiif"
+  ],
+  "author": "Zazuko GmbH",
+  "license": "MIT",
   "homepage": "https://github.com/zazuko/trifid-plugin-iiif",
   "repository": {
     "type": "git",
@@ -16,10 +18,10 @@
     "url": "https://github.com/zazuko/trifid-plugin-iiif/issues"
   },
   "scripts": {
-    "coverage": "codecov",
-    "test": "stricter-standard && c8 --reporter=lcov --reporter=text mocha"
+    "test": "standard"
   },
   "dependencies": {
+    "debug": "^4.1.1",
     "@rdfjs/express-handler": "^1.2.2",
     "@rdfjs/namespace": "^1.1.0",
     "@tpluscode/rdf-string": "^0.2.24",

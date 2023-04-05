@@ -1,4 +1,4 @@
-import jsonld from 'jsonld'
+const jsonld = require('jsonld')
 
 // jsonld.frame gets the schema (context) remotely, which is really expensive.
 // This map is a 'cache' for that specific call
@@ -44,7 +44,7 @@ const iiifFrame = {
  * @param doc
  * @returns {Promise<*>}
  */
-async function frame (doc) {
+const frame = async (doc) => {
   const framed = await jsonld.frame(doc, iiifFrame, { documentLoader: customLoader })
   framed['@context'] = 'http://iiif.io/api/presentation/3/context.json'
   return framed
