@@ -1,6 +1,7 @@
 {
   "name": "@zazuko/trifid-plugin-iiif",
   "version": "0.1.2",
+  "type": "module",
   "description": "Trifid plugin to handle IIIF data",
   "keywords": [
     "trifid",
@@ -32,7 +33,7 @@
   },
   "devDependencies": {
     "c8": "^7.11.3",
-    "stricter-standard": "^0.2.0",
+    "standard": "^17.0.0",
     "mocha": "^10.0.0",
     "express-as-promise": "^1.2.0"
   }
