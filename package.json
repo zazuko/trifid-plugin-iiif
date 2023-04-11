@@ -19,7 +19,7 @@
     "url": "https://github.com/zazuko/trifid-plugin-iiif/issues"
   },
   "scripts": {
-    "test": "standard"
+    "test": "standard && c8 --reporter=lcov --reporter=text mocha"
   },
   "dependencies": {
     "debug": "^4.1.1",
