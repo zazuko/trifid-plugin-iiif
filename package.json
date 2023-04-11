@@ -22,7 +22,6 @@
     "test": "standard && c8 --reporter=lcov --reporter=text mocha"
   },
   "dependencies": {
-    "debug": "^4.1.1",
     "@rdfjs/express-handler": "^1.2.2",
     "@rdfjs/namespace": "^1.1.0",
     "@tpluscode/rdf-string": "^0.2.24",
@@ -33,8 +32,8 @@
   },
   "devDependencies": {
     "c8": "^7.11.3",
-    "standard": "^17.0.0",
+    "express-as-promise": "^1.2.0",
     "mocha": "^10.0.0",
-    "express-as-promise": "^1.2.0"
+    "standard": "^17.0.0"
   }
 }
