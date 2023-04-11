@@ -16,7 +16,7 @@ const api = createApi(client, clientOptions)
 const url = 'https://data.ptt-archiv.ch/archive/instantiation/CH-000525-4%3Aaip-01-0000203993-0001/manifest'
 const iri = rdf.namedNode(url)
 
-async function tryOut () {
+const tryOut = async () => {
   if (api.exists(iri)) {
     const dataset = await api.getBasicDataset(iri)
     const augmented = await api.augmentDataset(dataset)

@@ -25,13 +25,13 @@ const filterOutAsItems = () =>
     }
   })
 
-function createApi (client, clientOptions) {
-  async function exists (iri) {
+const createApi = (client, clientOptions) => {
+  const exists = async (iri) => {
     const query = queries.manifestExists(iri)
     return await client.query.ask(query, clientOptions)
   }
 
-  async function getBasicDataset (iri) {
+  const getBasicDataset = async (iri) => {
     const dataset = rdf.dataset()
     const query = queries.discoverManifest(iri)
     const stream = await client.query.construct(query, clientOptions)
@@ -39,7 +39,7 @@ function createApi (client, clientOptions) {
     return dataset
   }
 
-  async function augmentDataset (dataset) {
+  const augmentDataset = async (dataset) => {
     const ptr = clownface({ dataset })
 
     // Find all important nodes
