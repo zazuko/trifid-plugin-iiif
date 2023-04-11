@@ -1,8 +1,8 @@
-const queries = require('./queries.js')
-const ns = require('./ns.js')
-const rdf = require('rdf-ext')
-const clownface = require('clownface')
-const through2 = require('through2')
+import clownface from 'clownface'
+import rdf from 'rdf-ext'
+import through2 from 'through2'
+import ns from './ns.js'
+import queries from './queries.js'
 
 const fixBlankNodes = () =>
   through2.obj((chunk, _enc, callback) => {
@@ -27,7 +27,8 @@ const filterOutAsItems = () =>
 
 const createApi = (client, clientOptions) => {
   const exists = async (iri) => {
-    return await client.query.ask(queries.manifestExists(iri), clientOptions)
+    const query = queries.manifestExists(iri)
+    return await client.query.ask(query, clientOptions)
   }
 
   const getBasicDataset = async (iri) => {
@@ -64,4 +65,4 @@ const createApi = (client, clientOptions) => {
   }
 }
 
-module.exports = createApi
+export { createApi }

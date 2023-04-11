@@ -1,28 +1,33 @@
-const SparqlHttpClient = require('sparql-http-client')
-const express = require('express')
-const debug = require('debug')('iiif:')
-const createApi = require('./src/iiif.js')
-const rdf = require('rdf-ext')
-const jsonld = require('jsonld')
-const frame = require('./src/frame.js')
+import jsonld from 'jsonld'
+import rdf from 'rdf-ext'
+import SparqlHttpClient from 'sparql-http-client'
+import frame from './src/frame.js'
+import { createApi } from './src/iiif.js'
 
-const middleware = (api, uriPrefix) => {
+/**
+ * Create the Express middleware.
+ */
+const createMiddleware = (api, options = {}, logger = (str) => console.log(str)) => {
+  const { uriPrefix } = options
+
   return async (req, res, next) => {
     const url = req.url
-    if (req.method !== 'GET') return next()
+    if (req.method !== 'GET') {
+      return next()
+    }
 
     if (!(uriPrefix || req.query.uri)) {
-      debug('No uri query parameter')
+      logger('No uri query parameter')
       return next()
     }
 
     const uri = uriPrefix ? rdf.namedNode(`${uriPrefix}${url}`) : rdf.namedNode(req.query.uri)
 
     if (!await api.exists(uri)) {
-      debug(`uri: ${uri} not found`)
+      logger(`uri: ${uri} not found`)
       return next()
     }
-    debug(`fetching uri: ${uri}`)
+    logger(`fetching uri: ${uri}`)
 
     const dataset = await api.getBasicDataset(uri)
     const augmented = await api.augmentDataset(dataset)
@@ -33,32 +38,25 @@ const middleware = (api, uriPrefix) => {
   }
 }
 
-const iiif = async (path, options) => {
-  const router = express.Router()
-  if (!options || !options.endpointUrl) {
-    debug('Warning: no endpoint configured, module not mounted')
-    return router
+const trifidFactory = (trifid) => {
+  const { config, logger } = trifid
+
+  if (!config || !config.endpointUrl) {
+    throw Error('missing endpointUrl parameter')
   }
   const client = new SparqlHttpClient({
-    endpointUrl: options.endpointUrl,
-    user: options.endpointUser,
-    password: options.endpointPassword
+    endpointUrl: config.endpointUrl,
+    user: config.endpointUser,
+    password: config.endpointPassword
   })
 
-  const clientOptions = {
+  const api = createApi(client, {
     operation: 'postUrlencoded'
-  }
-  const api = createApi(client, clientOptions)
-  const uriPrefix = options.uriPrefix ? options.uriPrefix : ''
-
-  router.get(path, middleware(api, uriPrefix))
-  return router
-}
-
-function factory (router, options) {
-  return this.middleware.mountAll(router, options, async (path) => {
-    return await iiif(path, options)
   })
+  const uriPrefix = config.uriPrefix ? config.uriPrefix : ''
+
+  return createMiddleware(api, { uriPrefix }, logger)
 }
 
-module.exports = factory
+export default trifidFactory
+export { createMiddleware }
