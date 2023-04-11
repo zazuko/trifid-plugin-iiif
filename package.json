@@ -19,9 +19,11 @@
     "url": "https://github.com/zazuko/trifid-plugin-iiif/issues"
   },
   "scripts": {
-    "test": "standard && c8 --reporter=lcov --reporter=text mocha"
+    "test": "standard && c8 --reporter=lcov --reporter=text mocha",
+    "release": "changeset publish"
   },
   "dependencies": {
+    "@changesets/cli": "^2.26.1",
     "@rdfjs/express-handler": "^1.2.2",
     "@rdfjs/namespace": "^1.1.0",
     "@tpluscode/rdf-string": "^0.2.25",
@@ -35,5 +37,8 @@
     "express-as-promise": "^1.2.0",
     "mocha": "^10.0.0",
     "standard": "^17.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
